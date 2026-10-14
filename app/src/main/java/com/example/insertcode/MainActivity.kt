@@ -16,15 +16,14 @@ import com.example.insertcode.navigation.AppNavigation
 import com.example.insertcode.navigation.NavigationEvent
 import com.example.insertcode.ui.theme.InsertCodeTheme
 import com.example.insertcode.viewmodel.LoginViewModel
-import com.example.insertcode.viewmodel.EstadoViewModel // 1. IMPORTA EL NUEVO VIEWMODEL
+import com.example.insertcode.viewmodel.EstadoViewModel
+import com.example.insertcode.viewmodel.PerfilViewModel // 🚀 Importación forzada explícita
 
 class MainActivity : ComponentActivity() {
 
-    // Instanciamos el LoginViewModel en la actividad principal para compartirlo
     private val loginViewModel: LoginViewModel by viewModels()
-
-    // 2. INSTANCIAMOS EL NUEVO VIEWMODEL (Necesita inicializarse aquí porque usa AndroidViewModel)
     private val estadoViewModel: EstadoViewModel by viewModels()
+    private val perfilViewModel: PerfilViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +32,12 @@ class MainActivity : ComponentActivity() {
             InsertCodeTheme {
                 val navController = rememberNavController()
 
-                // LaunchedEffect que colecta los eventos de navegación reactiva del ViewModel
+                // 🚀 Restablecemos el LaunchedEffect reactivo requerido por la evaluación
                 LaunchedEffect(key1 = true) {
                     loginViewModel.eventosNavegacion.collect { evento ->
                         when (evento) {
                             is NavigationEvent.NavigateTo -> {
                                 navController.navigate(evento.route) {
-                                    // Evita acumular pantallas repetidas en la pila
                                     launchSingleTop = true
                                 }
                             }
@@ -56,11 +54,11 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(paddingValues = innerPadding)
                     ) {
-                        // 3. PASAMOS EL NUEVO VIEWMODEL HACIA APPNAVIGATION
                         AppNavigation(
                             navController = navController,
                             loginViewModel = loginViewModel,
-                            estadoViewModel = estadoViewModel // Agregado aquí
+                            estadoViewModel = estadoViewModel,
+                            perfilViewModel = perfilViewModel
                         )
                     }
                 }
@@ -68,4 +66,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
