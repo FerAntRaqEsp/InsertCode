@@ -6,10 +6,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.insertcode.navigation.Screen
 import com.example.insertcode.viewmodel.LoginViewModel
 
 @Composable
-fun HomeAdminScreen(viewModel: LoginViewModel) {
+fun HomeAdminScreen(viewModel: LoginViewModel, navController: NavHostController) {
     val estado by viewModel.estado.collectAsState()
 
     Column(
@@ -24,9 +26,15 @@ fun HomeAdminScreen(viewModel: LoginViewModel) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 🚀 Botón agregado para el Administrador
         Button(onClick = { viewModel.irAPantallaEspecial() }) {
             Text("Ir a Modo Especial (Guía 12)")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // 🚀 Botón para abrir la Cámara y Galería (Guía 13)
+        Button(onClick = { navController.navigate(Screen.Perfil.route) }) {
+            Text("Ir a Mi Perfil (Cámara/Galería)")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -38,7 +46,7 @@ fun HomeAdminScreen(viewModel: LoginViewModel) {
 }
 
 @Composable
-fun HomeSupervisorScreen(viewModel: LoginViewModel) {
+fun HomeSupervisorScreen(viewModel: LoginViewModel, navController: NavHostController) {
     val estado by viewModel.estado.collectAsState()
 
     Column(
@@ -53,9 +61,15 @@ fun HomeSupervisorScreen(viewModel: LoginViewModel) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 🚀 Botón agregado para el Supervisor
         Button(onClick = { viewModel.irAPantallaEspecial() }) {
             Text("Ir a Modo Especial (Guía 12)")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // 🚀 Botón para Supervisor
+        Button(onClick = { navController.navigate(Screen.Perfil.route) }) {
+            Text("Ir a Mi Perfil (Cámara/Galería)")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -67,7 +81,7 @@ fun HomeSupervisorScreen(viewModel: LoginViewModel) {
 }
 
 @Composable
-fun HomeOperatorScreen(viewModel: LoginViewModel) {
+fun HomeOperatorScreen(viewModel: LoginViewModel, navController: NavHostController) {
     val estado by viewModel.estado.collectAsState()
 
     Column(
@@ -82,9 +96,15 @@ fun HomeOperatorScreen(viewModel: LoginViewModel) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // 🚀 Botón agregado para el Operador
         Button(onClick = { viewModel.irAPantallaEspecial() }) {
             Text("Ir a Modo Especial (Guía 12)")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // 🚀 Botón para Operador
+        Button(onClick = { navController.navigate(Screen.Perfil.route) }) {
+            Text("Ir a Mi Perfil (Cámara/Galería)")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -94,3 +114,4 @@ fun HomeOperatorScreen(viewModel: LoginViewModel) {
         }
     }
 }
+
