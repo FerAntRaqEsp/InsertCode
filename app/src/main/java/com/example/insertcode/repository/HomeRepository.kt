@@ -1,18 +1,36 @@
 package com.example.insertcode.repository
 
-import com.example.insertcode.model.Item
+import com.example.insertcode.model.UsuarioEntity
+import kotlinx.coroutines.flow.Flow
 
-// Repositorio: simula el origen de datos (podría reemplazarse por una API o BD real)
-class HomeRepository {
+class HomeRepository(
+    private val usuarioDao: com.example.insertcode.repository.UsuarioDao,
+    private val preferencesManager: PreferencesManager
+) {
+    // 🔹 MÉTODOS DE LA GUÍA 14 (ROOM FLOW)
+    val todosLosUsuarios: Flow<List<UsuarioEntity>> = usuarioDao.getUsuariosFlow()
 
-    fun obtenerMensajeBienvenida(): String {
-        return "¡Bienvenido!"
+    suspend fun insertarUsuario(usuario: UsuarioEntity) {
+        usuarioDao.insertar(usuario)
     }
 
-    fun obtenerItems(): List<Item> {
-        return listOf(
-            Item(1, "Elemento 1", "Descripción del elemento 1"),
-            Item(2, "Elemento 2", "Descripción del elemento 2")
-        )
+    suspend fun eliminarUsuario(usuario: UsuarioEntity) {
+        usuarioDao.eliminar(usuario)
+    }
+
+    fun buscarUsuarios(correo: String): Flow<List<UsuarioEntity>> {
+        return usuarioDao.buscarPorCorreo(correo)
+    }
+
+    // 🔹 MÉTODOS DE LA GUÍA 14 (DATASTORE FLOW)
+    val modoEspecial: Flow<Boolean> = preferencesManager.modoEspecialFlow
+
+    suspend fun actualizarModoPremium(activado: Boolean) {
+        preferencesManager.guardarModoEspecial(activado)
+    }
+
+    // 🔹 SOLUCIÓN AL ERROR ACTUAL: Función requerida por tu HomeViewModel base
+    fun obtenerMensajeBienvenida(): String {
+        return "¡Bienvenido a la Aplicación Base!"
     }
 }
